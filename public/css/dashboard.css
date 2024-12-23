@@ -1,0 +1,14 @@
+    .bg-gradient-primary {
+        background: linear-gradient(90deg, #004085, #007bff);
+        color: white;
+    }
+
+    .bg-gradient-info {
+        background: linear-gradient(90deg, #117a8b, #17a2b8);
+        color: white;
+    }
+
+    .bg-gradient-success {
+        background: linear-gradient(90deg, #155724, #28a745);
+        color: white;
+    }

@@ -17,7 +17,7 @@ class PickUp extends Model
         'time'
     ];
 
-    public function students(){
+    public function student(){
         return $this->belongsTo(Student::class);
     }
 }

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('pickups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained('students')->onDelete('cascade'); // Kolom foreign key
+            $table->foreignId('student_id')->constrained('students')->onDelete('cascade'); 
             $table->string('pickup_name');
-            $table->boolean('face_detection')->default(false); // Gunakan boolean nilai default tanpa string
+            $table->string('pickup_image')->nullable(); 
             $table->date('date');
             $table->time('time');
             $table->timestamps();

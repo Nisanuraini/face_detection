@@ -2,92 +2,86 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PickUp;
+use App\Models\Pickup;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class PickUpController extends Controller
+class PickupController extends Controller
 {
-    // Menampilkan semua data penjemputan
     public function index()
     {
-        $pickups = PickUp::with('students')->get(); // Mengambil data pickup dengan relasi siswa
-        return view('pickups.index', compact('pickups'));
+        $pickups = Pickup::with('student')->get();
+        return view('admin.pickups.index', compact('pickups'));
     }
 
-    // Menampilkan form untuk membuat data penjemputan baru
     public function create()
     {
-        $students = Student::all(); // Menampilkan semua siswa
-        return view('pickups.create', compact('students'));
+        $students = Student::all();
+        return view('admin.pickups.create', compact('students'));
     }
 
-    // Menyimpan data penjemputan baru
     public function store(Request $request)
     {
         $request->validate([
             'student_id' => 'required|exists:students,id',
             'pickup_name' => 'required|string|max:255',
-            'face_detection' => 'required|string|max:255',
+            'pickup_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'date' => 'required|date',
             'time' => 'required|date_format:H:i',
         ]);
 
-        PickUp::create([
-            'student_id' => $request->student_id,
-            'pickup_name' => $request->pickup_name,
-            'face_detection' => $request->face_detection,
-            'date' => $request->date,
-            'time' => $request->time,
-        ]);
+        $data = $request->all();
+        if ($request->hasFile('pickup_image')) {
+            $data['pickup_image'] = $request->file('pickup_image')->store('pickup_images', 'public');
+        }
 
-        return redirect()->route('pickups.index')->with('success', 'Penjemputan berhasil ditambahkan');
+        Pickup::create($data);
+
+        return redirect()->route('pickups.index')->with('success', 'Pickup created successfully.');
     }
 
-    // Menampilkan detail data penjemputan berdasarkan ID
-    public function show($id)
+    public function show(Pickup $pickup)
     {
-        $pickup = PickUp::with('students')->findOrFail($id); // Mengambil data pickup dengan relasi siswa
-        return view('pickups.show', compact('pickup'));
+        return view('admin.pickups.show', compact('pickup'));
     }
 
-    // Menampilkan form untuk mengedit data penjemputan
-    public function edit($id)
+    public function edit(Pickup $pickup)
     {
-        $pickup = PickUp::findOrFail($id);
-        $students = Student::all(); // Menampilkan semua siswa
-        return view('pickups.edit', compact('pickup', 'students'));
+        $students = Student::all();
+        return view('admin.pickups.edit', compact('pickup', 'students'));
     }
 
-    // Mengupdate data penjemputan
-    public function update(Request $request, $id)
+    public function update(Request $request, Pickup $pickup)
     {
         $request->validate([
             'student_id' => 'required|exists:students,id',
             'pickup_name' => 'required|string|max:255',
-            'face_detection' => 'required|string|max:255',
+            'pickup_image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'date' => 'required|date',
             'time' => 'required|date_format:H:i',
         ]);
 
-        $pickup = PickUp::findOrFail($id);
-        $pickup->update([
-            'student_id' => $request->student_id,
-            'pickup_name' => $request->pickup_name,
-            'face_detection' => $request->face_detection,
-            'date' => $request->date,
-            'time' => $request->time,
-        ]);
+        $data = $request->all();
+        if ($request->hasFile('pickup_image')) {
+            if ($pickup->pickup_image) {
+                Storage::disk('public')->delete($pickup->pickup_image);
+            }
+            $data['pickup_image'] = $request->file('pickup_image')->store('pickup_images', 'public');
+        }
 
-        return redirect()->route('pickups.index')->with('success', 'Penjemputan berhasil diperbarui');
+        $pickup->update($data);
+
+        return redirect()->route('pickups.index')->with('success', 'Pickup updated successfully.');
     }
 
-    // Menghapus data penjemputan
-    public function destroy($id)
+    public function destroy(Pickup $pickup)
     {
-        $pickup = PickUp::findOrFail($id);
+        if ($pickup->pickup_image) {
+            Storage::disk('public')->delete($pickup->pickup_image);
+        }
         $pickup->delete();
 
-        return redirect()->route('pickups.index')->with('success', 'Penjemputan berhasil dihapus');
+        return redirect()->route('admin.pickups.index')->with('success', 'Pickup deleted successfully.');
     }
 }

@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f4f6f9;
+            background-color: #eef5ff;
         }
         .sidebar {
             height: 100vh;
@@ -18,19 +18,22 @@
             z-index: 100;
             padding-top: 60px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            background-color: #d6dbf3;
+            background-color: #004c99; /* Biru tua */
+        }
+        .sidebar h3 {
+            color: #ffffff;
         }
         .content {
             margin-left: 250px;
             padding: 20px;
         }
         .nav-link {
-            color: #333;
+            color: #ffffff;
             transition: all 0.3s ease;
         }
         .nav-link:hover, .nav-link.active {
-            background-color: #e9ecef;
-            color: #007bff;
+            background-color: #0066cc; /* Biru cerah */
+            color: #ffffff;
         }
         .profile-btn {
             border-radius: 8px;
@@ -81,7 +84,7 @@
             <nav class="col-md-3 col-lg-2 d-md-block sidebar">
                 <div class="position-sticky">
                     <div class="text-center mb-4">
-                        <h3 class="text-primary">Pickup System</h3>
+                        <h3 class="text-white">Pickup System</h3>
                     </div>
                     <ul class="nav flex-column">
                         <li class="nav-item">
@@ -97,6 +100,27 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is('face-detection-list') ? 'active' : '' }}" href="{{ route('face-detection-list') }}">
                                 <i class="bi bi-list-ul me-2"></i> List Face Detection
+                            </a>
+                        </li>
+                        <!-- Penambahan Menu Baru -->
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('students') ? 'active' : '' }}" href="{{ route('students.index') }}">
+                                <i class="bi bi-people-fill me-2"></i> Siswa
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('classes') ? 'active' : '' }}" href="{{ route('classes.index') }}">
+                                <i class="bi bi-building me-2"></i> Kelas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('schools') ? 'active' : '' }}" href="{{ route('schools.index') }}">
+                                <i class="bi bi-mortarboard me-2"></i> Sekolah
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('pickups') ? 'active' : '' }}" href="{{ route('pickups.index') }}">
+                                <i class="bi bi-truck me-2"></i> Penjemput
                             </a>
                         </li>
                     </ul>
@@ -134,8 +158,8 @@
                     </div>
                 </div>
 
-                <!-- Page Title -->
-                <h1 class="h2">@yield('page_title', 'Dashboard')</h1>
+                {{-- <!-- Page Title -->
+                <h1 class="h2">@yield('page_title', 'Dashboard')</h1> --}}
 
                 <!-- Content Section -->
                 @yield('content')
@@ -147,5 +171,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </body>
 </html>

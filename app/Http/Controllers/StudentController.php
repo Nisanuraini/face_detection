@@ -3,26 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
-use App\Models\Kelas;
-use App\Models\Pickup;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
-    // Menampilkan semua data siswa
     public function index()
     {
         $students = Student::all();
         return view('admin.students.index', compact('students'));
     }
 
-    // Menampilkan form untuk membuat siswa baru
     public function create()
     {
-        return view('students.create');
+        return view('admin.students.create');
     }
 
-    // Menyimpan data siswa baru
     public function store(Request $request)
     {
         $request->validate([
@@ -38,21 +33,18 @@ class StudentController extends Controller
         return redirect()->route('students.index')->with('success', 'Siswa berhasil ditambahkan');
     }
 
-    // Menampilkan detail siswa berdasarkan ID
     public function show($id)
     {
         $student = Student::findOrFail($id);
-        return view('students.show', compact('student'));
+        return view('admin.students.show', compact('student'));
     }
 
-    // Menampilkan form untuk mengedit data siswa
     public function edit($id)
     {
         $student = Student::findOrFail($id);
-        return view('students.edit', compact('student'));
+        return view('admin.students.edit', compact('student'));
     }
 
-    // Mengupdate data siswa
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -68,8 +60,7 @@ class StudentController extends Controller
 
         return redirect()->route('students.index')->with('success', 'Siswa berhasil diperbarui');
     }
-
-    // Menghapus data siswa
+    
     public function destroy($id)
     {
         $student = Student::findOrFail($id);

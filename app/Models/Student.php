@@ -12,7 +12,7 @@ class Student extends Model
     protected $fillable = ['name', 'nis'];
 
     public function classes (){
-        return $this->hasMany(Kelas::class);
+        return $this->hasOne(ClassModel::class);
     }
 
     public function pickups (){
