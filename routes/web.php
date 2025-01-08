@@ -54,6 +54,8 @@ Route::get('admin/pickups/{pickup}/edit', [PickupController::class, 'edit'])->na
 Route::put('admin/pickups/{pickup}', [PickupController::class, 'update'])->name('pickups.update');
 Route::delete('admin/pickups/{pickup}', [PickupController::class, 'destroy'])->name('pickups.destroy');
 
+Route::get('/face-detection', [FaceDetectionController::class, 'index']);
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/face-detection', [FaceDetectionController::class, 'index'])->name('face-detection');
     Route::get('/face-detection-list', [FaceDetectionListController::class, 'index'])->name('face-detection-list');
@@ -70,5 +72,9 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/');
 })->name('logout');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PickUp extends Model
+class Pickup extends Model
 {
     protected $table = 'pickups';
 
     protected $fillable = [
         'student_id',
         'pickup_name',
-        'face_detection',
+        'pickup_image',
         'date',
         'time'
     ];

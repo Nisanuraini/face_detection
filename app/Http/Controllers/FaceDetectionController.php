@@ -6,9 +6,8 @@ use Illuminate\Http\Request;
 
 class FaceDetectionController extends Controller
 {
-    public function show($id)
+    public function index()
     {
-        $pickup = Pickup::findOrFail($id);
-        return view('admin.face-detection-result', compact('pickup'));
+        return view('admin.face-detection.index'); // Ganti dengan nama view yang sesuai
     }
 }

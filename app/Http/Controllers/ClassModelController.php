@@ -10,7 +10,7 @@ class ClassModelController extends Controller
 {
     public function index()
     {
-        $classes = Classroom::with('students')->get();
+        $classes = Classroom::all();
         return view('admin.classes.index', compact('classes'));
     }
 
@@ -22,33 +22,73 @@ class ClassModelController extends Controller
 
     public function store(Request $request)
     {
-        $classes = Classroom::create($request->all());
-        return redirect()->route('classes.index');
+        // Validasi input
+        $request->validate([
+            'class_name' => 'required|string|max:255',
+            'student_id' => 'required|integer|exists:students,id',
+        ]);
+
+        Classroom::create($request->all());
+        return redirect()->route('classes.index')->with('success', 'Kelas berhasil dibuat.');
     }
 
     public function show($id)
     {
-        $classes = Classroom::find($id);
-        return view('admin.classes.show', compact('class'));
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return redirect()->route('classes.index')
+                ->with('error', 'Kelas tidak ditemukan.');
+        }
+
+        return view('admin.classes.show', compact('classroom'));
     }
 
     public function edit($id)
     {
-        $classes = Classroom::find($id);
+        $classroom = Classroom::find($id);
+        if (!$classroom) {
+            return redirect()->route('classes.index')
+                ->with('error', 'Kelas tidak ditemukan.');
+        }
+
         $students = Student::all();
-        return view('admin.classes.edit', compact('class', 'students'));
+        return view('admin.classes.edit', compact('classroom', 'students'));
     }
 
     public function update(Request $request, $id)
     {
-        $classes = Classroom::find($id);
-        $classes->update($request->all());
-        return redirect()->route('classes.index');
+        // Validasi input
+        $request->validate([
+            'class_name' => 'required|string|max:255',
+            'student_id' => 'required|integer|exists:students,id',
+        ]);
+
+        // Update data
+        $class = Classroom::find($id);
+        if (!$class) {
+            return redirect()->route('classes.index')
+                ->with('error', 'Kelas tidak ditemukan.');
+        }
+
+        $class->update($request->all());
+
+        // Redirect dengan notifikasi
+        return redirect()->route('classes.index')
+            ->with('success', 'Kelas berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
-        ClassModel::destroy($id);
-        return redirect()->route('classes.index');
+        $class = Classroom::find($id);
+        if (!$class) {
+            return redirect()->route('classes.index')
+                ->with('error', 'Kelas tidak ditemukan.');
+        }
+
+        $class->delete();
+
+        return redirect()->route('classes.index')
+            ->with('success', 'Kelas berhasil dihapus.');
     }
 }

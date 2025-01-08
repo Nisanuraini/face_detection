@@ -47,20 +47,28 @@
             <h5 class="mb-0">
                 <i class="bi bi-clock-history"></i> Riwayat Penjemputan Terkini
             </h5>
-            <a href="#" class="btn btn-sm btn-primary">
-                <i class="bi bi-eye"></i> Lihat Semua
-            </a>
+            <div class="d-flex">
+                <form action="#" method="GET" class="d-flex me-2">
+                    <input type="text" name="search" class="form-control form-control-sm me-2" placeholder="Cari siswa atau penjemput">
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        <i class="bi bi-search"></i> Cari
+                    </button>
+                </form>
+                <button class="btn btn-sm btn-secondary" onclick="printTable()">
+                    <i class="bi bi-printer"></i> Cetak Laporan
+                </button>
+            </div>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
+            <div id="printableTable" class="table-responsive">
                 <table class="table table-bordered table-hover align-middle">
                     <thead class="table-light">
                         <tr>
                             <th>Nama Siswa</th>
-                            <th>Tanggal</th>
-                            <th>Waktu</th>
                             <th>Nama Penjemput</th>
                             <th>Gambar</th>
+                            <th>Tanggal</th>
+                            <th>Waktu</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -68,22 +76,21 @@
                         @forelse($recentPickups as $pickup)
                         <tr>
                             <td>{{ optional($pickup->student)->name }}</td>
-                            <td>{{ $pickup->date }}</td>
-                            <td>{{ $pickup->time }}</td>
                             <td>{{ $pickup->pickup_name }}</td>
                             <td>
                                 @if($pickup->pickup_image)
-                                    <img src="{{ asset('storage/' . $pickup->pickup_image) }}" 
-                                         alt="Gambar Penjemput" 
-                                         class="img-thumbnail" 
-                                         style="width: 80px; height: 80px; object-fit: cover;">
+                                <img src="{{ asset('storage/' . $pickup->pickup_image) }}" 
+                                     alt="Gambar Penjemput" 
+                                     class="img-thumbnail" 
+                                     style="width: 80px; height: 80px; object-fit: cover;">
                                 @else
                                     <span class="text-muted">Tidak ada gambar</span>
                                 @endif
                             </td>
+                            <td>{{ \Carbon\Carbon::parse($pickup->date)->format('d-m-Y') }}</td>
+                            <td>{{ $pickup->time }}</td>
                             <td>
-                                <button class="btn btn-sm btn-info">
-                                    <i class="bi bi-search"></i> Detail
+                                <a href="{{ route('pickups.show', $pickup->id) }}" class="btn btn-info btn-sm"><i class="bi bi-search"></i> Detail</a>
                                 </button>
                             </td>
                         </tr>
@@ -98,6 +105,45 @@
         </div>
     </div>
 </div>
+
+<script>
+    function printTable() {
+        var printContent = document.getElementById('printableTable').innerHTML;
+        var originalContent = document.body.innerHTML;
+
+        document.body.innerHTML = `
+            <html>
+            <head>
+                <title>Cetak Laporan</title>
+                <style>
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                    }
+                    table, th, td {
+                        border: 1px solid black;
+                    }
+                    th, td {
+                        padding: 8px;
+                        text-align: center;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                    }
+                </style>
+            </head>
+            <body>
+                <h3>Riwayat Penjemputan</h3>
+                ${printContent}
+            </body>
+            </html>
+        `;
+
+        window.print();
+        document.body.innerHTML = originalContent;
+        window.location.reload(); // Reload halaman untuk mengembalikan konten asli
+    }
+</script>
+
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-</style>
 @endsection

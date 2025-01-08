@@ -11,11 +11,11 @@ class Student extends Model
 
     protected $fillable = ['name', 'nis'];
 
-    public function classes (){
-        return $this->hasOne(ClassModel::class);
+    public function classroom (){
+        return $this->belongsTo(Classroom::class, 'classroom_id');
     }
 
-    public function pickups (){
+    public function pickup (){
         return $this->hasMany(Pickup::class);
     }
 }

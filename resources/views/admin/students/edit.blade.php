@@ -1,18 +1,25 @@
 @extends('admin.home')
 
 @section('content')
-    <h1>Edit Siswa</h1>
-    <form action="{{ route('students.update', $student->id) }}" method="POST">
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Edit Siswa</h1>
+
+    <form action="{{ route('students.update', $student->id) }}" method="POST" 
+          onsubmit="return confirm('Apakah Anda yakin ingin mengupdate data siswa ini?')">
         @csrf
         @method('PUT')
-        <div class="mb-3">
-            <label for="name" class="form-label">Nama Siswa</label>
-            <input type="text" name="name" id="name" class="form-control" value="{{ $student->name }}" required>
+        <div class="form-group mb-4">
+            <label for="name">Nama Siswa</label>
+            <input type="text" name="name" class="form-control rounded-pill" value="{{ old('name', $student->name) }}" required>
         </div>
-        <div class="mb-3">
-            <label for="nis" class="form-label">NIS</label>
-            <input type="text" name="nis" id="nis" class="form-control" value="{{ $student->nis }}" required>
+        <div class="form-group mb-4">
+            <label for="nis">NIS</label>
+            <input type="text" name="nis" id="nis" class="form-control rounded-pill" 
+            value="{{ old('nis', $student->nis) }}" required>
         </div>
-        <button type="submit" class="btn btn-warning">Update</button>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5">Update</button>
+        </div>
     </form>
+</div>
 @endsection

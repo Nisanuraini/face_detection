@@ -1,32 +1,52 @@
 @extends('admin.home')
 
 @section('content')
-    <a href="{{ route('classes.create') }}" class="btn btn-primary">Add Class</a>
-    <table class="table mt-3">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nama Kelas</th>
-                <th>Nama Siswa</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($classes as $class)
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Daftar Kelas</h1>
+    <a href="{{ route('classes.create') }}" class="btn btn-primary mb-3">Tambah Kelas</a>
+
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+        </div>
+        <script>
+            setTimeout(function() {
+                $('.alert').alert('close');
+            }, 3000);
+        </script>
+        @endif
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped text-center">
+            <thead class="thead-dark">
                 <tr>
-                    <td>{{ $class->id }}</td>
-                    <td>{{ $class->class_name }}</td>
-                    <td>{{ $class->students->name }}</td>
-                    <td>
-                        <a href="{{ route('classes.edit', $class) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('classes.destroy', $class) }}" method="POST" style="display:inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
-                    </td>
+                    <th>No</th>
+                    <th>Nama Kelas</th>
+                    <th>Nama Siswa</th>
+                    <th>Action</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach ($classes as $classroom)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $classroom->class_name }}</td>
+                        <td>{{ $classroom->student->name ?? 'tidak ada siswa' }}</td>
+                        <td>
+                            <a href="{{ route('classes.show', $classroom) }}" class="btn btn-info btn-sm">Detail</a>
+                            <a href="{{ route('classes.edit', $classroom) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{{ route('classes.destroy', $classroom) }}" method="POST" class="d-inline-block" 
+                                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus data kelas ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                            </form>
+                            <link rel="stylesheet" href="{{ asset('css/classes.css') }}">
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
 @endsection
