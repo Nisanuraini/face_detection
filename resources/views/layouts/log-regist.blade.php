@@ -1,4 +1,54 @@
 <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SiswaGo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    {{-- logo --}}
+    <link rel="icon" type="image/x-icon" href="{{ asset('img/Logo YPI.png') }}"/>
+    {{-- Font --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    {{-- Bootstrap Icons --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    {{-- General Style --}}
+    <style>
+      *{
+        font-family: 'Montserrat', sans-serif;
+      }
+        /* Gaya untuk perangkat besar (default) */
+      .responsive-background {
+        height: 500px; /* Ukuran untuk perangkat besar */
+      }
+    
+      /* Gaya khusus untuk perangkat kecil */
+      @media (max-width: 768px) {
+        .responsive-background {
+          height: 200px; /* Ukuran untuk perangkat kecil */
+        }
+  }
+    </style>
+
+    {{-- Page Style --}}
+    @yield('style')
+  </head>
+  <body>
+    
+    @yield('main-content')
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    {{-- Page Script --}}
+    @yield('script')
+  </body>
+</html>
+
+
+{{-- <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -79,4 +129,4 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     </div>
 </body>
-</html>
+</html> --}}
