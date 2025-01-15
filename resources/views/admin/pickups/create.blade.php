@@ -2,9 +2,8 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Tambah Penjemputan</h1>
-
-    <form action="{{ route('pickups.store') }}" method="POST" enctype="multipart/form-data">
+    <h1>Tambah Data Penjemputan</h1>
+        <form action="{{ route('pickups.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="mb-3">

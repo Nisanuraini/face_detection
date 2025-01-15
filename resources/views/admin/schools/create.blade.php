@@ -7,33 +7,16 @@
         @csrf
 
         <div class="form-group">
-            <label>Nama Sekolah:</label>
-            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror">
-            @error('name')
+            <label>Total Kelas:</label>
+            <input type="text" name="name" class="form-control @error('total kelas') is-invalid @enderror">
+            @error('total kelas')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
-
         <div class="form-group">
-            <label>Siswa:</label>
-            <select name="student_id" class="form-control @error('student_id') is-invalid @enderror">
-                @foreach($students as $student)
-                    <option value="{{ $student->id }}">{{ $student->name }}</option>
-                @endforeach
-            </select>
-            @error('student_id')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="form-group">
-            <label>Kelas:</label>
-            <select name="class_id" class="form-control @error('class_id') is-invalid @enderror">
-                @foreach($classes as $classroom)
-                <option value="{{ $classroom->id }}">{{ $classroom->class_name }}s</option>
-                 @endforeach
-            </select>
-            @error('class_id')
+            <label>Total Siswa:</label>
+            <input type="text" name="name" class="form-control @error('total_classes') is-invalid @enderror">
+            @error('total_classes')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>

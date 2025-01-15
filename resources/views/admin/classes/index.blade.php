@@ -9,12 +9,7 @@
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
         </div>
-        <script>
-            setTimeout(function() {
-                $('.alert').alert('close');
-            }, 3000);
-        </script>
-        @endif
+    @endif
 
     <div class="table-responsive">
         <table class="table table-bordered table-striped text-center">
@@ -22,7 +17,6 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Kelas</th>
-                    <th>Nama Siswa</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -31,7 +25,6 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $classroom->class_name }}</td>
-                        <td>{{ $classroom->student->name ?? 'tidak ada siswa' }}</td>
                         <td>
                             <a href="{{ route('classes.show', $classroom) }}" class="btn btn-info btn-sm">Detail</a>
                             <a href="{{ route('classes.edit', $classroom) }}" class="btn btn-warning btn-sm">Edit</a>
@@ -41,7 +34,6 @@
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                             </form>
-                            <link rel="stylesheet" href="{{ asset('css/classes.css') }}">
                         </td>
                     </tr>
                 @endforeach
@@ -49,4 +41,13 @@
         </table>
     </div>
 </div>
+
+<script>
+    // Cek apakah ada alert dan tutup setelah 3 detik
+    $(document).ready(function() {
+        setTimeout(function() {
+            $('.alert').alert('close');
+        }, 3000);
+    });
+</script>
 @endsection

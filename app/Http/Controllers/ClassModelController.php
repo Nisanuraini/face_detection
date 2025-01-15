@@ -25,7 +25,6 @@ class ClassModelController extends Controller
         // Validasi input
         $request->validate([
             'class_name' => 'required|string|max:255',
-            'student_id' => 'required|integer|exists:students,id',
         ]);
 
         Classroom::create($request->all());
@@ -35,6 +34,7 @@ class ClassModelController extends Controller
     public function show($id)
     {
         $classroom = Classroom::find($id);
+        $classroom->load('students');
 
         if (!$classroom) {
             return redirect()->route('classes.index')
@@ -61,7 +61,6 @@ class ClassModelController extends Controller
         // Validasi input
         $request->validate([
             'class_name' => 'required|string|max:255',
-            'student_id' => 'required|integer|exists:students,id',
         ]);
 
         // Update data
