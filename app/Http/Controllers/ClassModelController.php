@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\School;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -10,84 +11,59 @@ class ClassModelController extends Controller
 {
     public function index()
     {
+        $schools = School::all();
         $classes = Classroom::all();
-        return view('admin.classes.index', compact('classes'));
+        return view('admin.classes.index', compact('classes', 'schools'));
     }
 
     public function create()
-    {
-        $students = Student::all();
-        return view('admin.classes.create', compact('students'));
+    {   
+        return view('admin.classes.create');
     }
 
     public function store(Request $request)
-    {
-        // Validasi input
+    { 
         $request->validate([
             'class_name' => 'required|string|max:255',
+            'school_id' => 'required|exists:schools,id',
         ]);
 
         Classroom::create($request->all());
+
         return redirect()->route('classes.index')->with('success', 'Kelas berhasil dibuat.');
     }
 
     public function show($id)
     {
-        $classroom = Classroom::find($id);
-        $classroom->load('students');
-
-        if (!$classroom) {
-            return redirect()->route('classes.index')
-                ->with('error', 'Kelas tidak ditemukan.');
-        }
-
+        $classroom = Classroom::with('school', 'students')->findOrFail($id);        
         return view('admin.classes.show', compact('classroom'));
     }
 
     public function edit($id)
     {
-        $classroom = Classroom::find($id);
-        if (!$classroom) {
-            return redirect()->route('classes.index')
-                ->with('error', 'Kelas tidak ditemukan.');
-        }
-
-        $students = Student::all();
-        return view('admin.classes.edit', compact('classroom', 'students'));
+        $schools = School::all();
+        $classroom = Classroom::findOrFail($id);
+        return view('admin.classes.edit', compact('classroom'));
     }
 
     public function update(Request $request, $id)
     {
-        // Validasi input
         $request->validate([
             'class_name' => 'required|string|max:255',
+            'school_id' => 'required',
         ]);
 
-        // Update data
-        $class = Classroom::find($id);
-        if (!$class) {
-            return redirect()->route('classes.index')
-                ->with('error', 'Kelas tidak ditemukan.');
-        }
+        $classroom = Classroom::findOrFail($id);
+        $classroom->update($request->only('class_name'));
 
-        $class->update($request->all());
-
-        // Redirect dengan notifikasi
-        return redirect()->route('classes.index')
-            ->with('success', 'Kelas berhasil diperbarui.');
+        return redirect()->route('classes.index')->with('success', 'Kelas berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
-        $class = Classroom::find($id);
-        if (!$class) {
-            return redirect()->route('classes.index')
-                ->with('error', 'Kelas tidak ditemukan.');
-        }
+        $classroom = Classroom::findOrFail($id);
+        $classroom->delete();
 
-        $class->delete();
-
-        return redirect()->route('classes.index')
-            ->with('success', 'Kelas berhasil dihapus.');
+        return redirect()->route('classes.index')->with('success', 'Kelas berhasil dihapus.');
     }
 }

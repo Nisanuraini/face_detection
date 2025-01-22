@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Pickup extends Model
+class PickupStudent extends Model
 {
-    protected $table = 'pickups';
+    use HasFactory;
+    protected $table = 'pickup_students';
 
     protected $fillable = [
-        'student_id', 
-        'pickup_name',
+        'pickup_nama',
     ];
 
     public function student(){

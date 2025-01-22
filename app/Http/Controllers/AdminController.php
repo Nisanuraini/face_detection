@@ -16,7 +16,6 @@ class AdminController extends Controller
         $students = Student::all();
         
         return view('admin.dashboard', compact('totalStudents', 'totalPickups', 'recentPickups')); 
-        return view('admin.students.create', compact('students'));
     } 
     public function home()
     {

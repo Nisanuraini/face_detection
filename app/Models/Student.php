@@ -11,26 +11,38 @@ class Student extends Model
 
     protected $table = 'students';
 
-    // Kolom-kolom yang dapat diisi melalui mass assignment
     protected $fillable = [
         'name',
         'nis',
-        'class_id',
+        'classroom_id',
+        'school_id',
         'address',
         'parent_name',
         'parent_contact',
         'emergency_contact',
-        'pickup_person',
-        'student_image', 
+        'pickup_name',
+        'photo',
     ];
 
+    public function school()
+    {
+        return $this->belongsTo(School::class, 'school_id');
+    }
+    
     public function classroom()
     {
-        return $this->belongsTo(Classroom::class, 'class_id');
+        return $this->belongsTo(Classroom::class, 'classroom_id');
     }
 
+    // Relasi ke Pickup
     public function pickup()
     {
         return $this->hasOne(Pickup::class, 'student_id');
     }
+
+    public function pickupStudent()
+    {
+        return $this->hasOne(PickupStudent::class, 'student_id');
+    }
 }
+ 

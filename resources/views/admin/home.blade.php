@@ -61,20 +61,6 @@
             display: flex;
             align-items: center;
         }
-        .notifications {
-            margin-right: 15px;
-            position: relative;
-        }
-        .notifications .badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: red;
-            color: white;
-            font-size: 12px;
-            padding: 2px 5px;
-            border-radius: 50%;
-        }
     </style>
 </head>
 <body>
@@ -119,6 +105,11 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {{ request()->is('pickupstudents') ? 'active' : '' }}" href="{{ route('pickupstudents.index') }}">
+                                <i class="bi bi-person-check-fill me-2"></i> Pickup Student
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {{ request()->is('pickups') ? 'active' : '' }}" href="{{ route('pickups.index') }}">
                                 <i class="bi bi-truck me-2"></i> Penjemput
                             </a>
@@ -132,14 +123,6 @@
                 <!-- Navbar atas (Profil) -->
                 <div class="d-flex justify-content-end align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <div class="navbar-right">
-                        <!-- Notifikasi -->
-                        <div class="notifications">
-                            <a href="#">
-                                <i class="bi bi-bell-fill"></i>
-                                <span class="badge">3</span>
-                            </a>
-                        </div>
-
                         <!-- Profil Pengguna -->
                         <div class="dropdown">
                             <button class="btn profile-btn dropdown-toggle" type="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -173,5 +156,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+
+
 </body>
 </html> 

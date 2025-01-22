@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h1 class="mb-4">Daftar Penjemputan Siswa</h1>
-    <a href="{{ route('pickups.create') }}" class="btn btn-primary mb-3">Tambah Penjemputan</a>
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">Tambah Penjemputan</button>
 
     @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -19,39 +19,85 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>#</th>
-                <th>Nama Siswa</th>
-                <th>Nama Penjemput</th>
-                <th>Gambar</th>
-                <th>Tanggal</th>
-                <th>Waktu</th>
-                <th>Aksi</th>
+                <th class="text-center">No</th>
+                <th class="text-center">Nama Penjemput</th>
+                <th class="text-center">Aksi</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($pickups as $pickup)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $pickup->student->name }}</td>
-                    <td>{{ $pickup->pickup_name }}</td>
-                    <td>     
-                        <a href="{{ asset('storage/' . $pickup->pickup_image) }}" target="_blank">
-                            <img src="{{ url('storage/' . $pickup->pickup_image) }}" alt="Pickup_Image" width="100" class="img-thumbnail">
-                        </a>
-                    </td>
-                    <td>{{ \Carbon\Carbon::parse($pickup->date)->format('d-m-Y') }}</td>
-                    <td>{{ $pickup->time }}</td>
+                    <td class="text-center">{{ $loop->iteration }}</td>
+                    <td class="text-center">{{ $pickup->pickup_name }}</td>
                     <td>
-                        <a href="{{ route('pickups.show', $pickup->id) }}" class="btn btn-info btn-sm">Detail</a>
-                        <a href="{{ route('pickups.edit', $pickup->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('pickups.destroy', $pickup->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $pickup->id }}">Edit</button>
+                        <form action="{{ route('pickups.destroy', $pickup) }}" method="POST" class="d-inline-block" 
+                              onsubmit="return confirm('Apakah Anda yakin ingin menghapus data penjemputan ini?')">
+                             @csrf
+                             @method('DELETE')
+                              <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                         </form>
+                    </td>
                 </tr>
+
+                <!-- Modal Edit -->
+                <div class="modal fade" id="editModal{{ $pickup->id }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ $pickup->id }}" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editModalLabel{{ $pickup->id }}">Edit Penjemputan</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="{{ route('pickups.update', $pickup->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="pickup_name">Nama Penjemput</label>
+                                        <input type="text" class="form-control" id="pickup_name" name="pickup_name" value="{{ $pickup->pickup_name }}" required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
             @endforeach
         </tbody>
     </table>
 </div>
+
+<!-- Modal Create -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Tambah Penjemputan</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('pickups.store') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="pickup_name">Nama Penjemput</label>
+                        <input type="text" class="form-control" id="pickup_name" name="pickup_name" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary">Tambah Penjemput</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @endsection

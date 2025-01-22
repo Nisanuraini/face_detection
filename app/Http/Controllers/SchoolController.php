@@ -12,52 +12,42 @@ class SchoolController extends Controller
     public function index()
     {
         $schools = School::all(); 
-        $classes = Classroom::all(); 
-        return view('admin.schools.index', compact('schools', 'classes'));
+        return view('admin.schools.index', compact('schools'));
     }
     
     public function create()
     {
-        $students = Student::all();
-        $classes = Classroom::all();
-        return view('admin.schools.create', compact('students', 'classes'));
+        return view('admin.schools.create');
     }
     
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'student_id' => 'required|exists:students,id',
-            'class_id' => 'required|exists:classes,id',
-            'total_classes' => 'required|integer|min:0',
-            'total_students' => 'required|integer|min:0',
         ]);
 
-        School::create($request->only(['name', 'total_classes', 'total_students']));
+        School::create($request->only(['name']));
         return redirect()->route('schools.index')->with('success', 'Sekolah berhasil ditambahkan.');
     }
     
     public function show(School $school)
     {
+        $school = School::with('classes')->findOrFail($school->id);
         return view('admin.schools.show', compact('school'));
     }
     
     public function edit(School $school)
     {
-        return view('admin.schools.edit', compact('school'));
+        return view('admin.schools.edit', compact('schools'));
     }
     
     public function update(Request $request, School $school)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'student_id' => 'required|exists:students,id',
-            'class_id' => 'required|exists:classes,id',
-            'total_classes' => 'required|integer|min:0',
-            'total_students' => 'required|integer|min:0',
         ]);
 
-        $school->update($request->only(['name', 'total_classes', 'total_students']));
+        $school->update($request->only(['name']));
         return redirect()->route('schools.index')->with('success', 'Sekolah berhasil diperbarui.');
     }
     
