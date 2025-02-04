@@ -10,11 +10,8 @@ class Pickup extends Model
     protected $table = 'pickups';
 
     protected $fillable = [
-        'student_id',
         'pickup_name',
-        'pickup_image',
-        'date',
-        'time'
+        'student_id',
     ];
 
     public function student(){

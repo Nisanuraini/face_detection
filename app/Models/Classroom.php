@@ -12,17 +12,21 @@ class Classroom extends Model
     use HasFactory;
 
     protected $table = 'classes';
-    protected $fillable = ['class_name','student_id'];
-
-    public function student()
-    {
-        return $this->belongsTo(Student::class, 'student_id'); 
-    }
-
+    
+    protected $fillable = [
+        'id',
+        'class_name',
+        'school_id'
+    ];
+    
     public function school()
     {
         return $this->belongsTo(School::class);
     }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'class_id'); 
+    }
+
 }
-
-

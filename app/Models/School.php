@@ -12,19 +12,20 @@ class School extends Model
     use HasFactory;
 
     protected $table = 'schools';
+
     protected $fillable = [
         'name',
-        'student_id',
-        'class_id'
+        'class_id',
+        'student_id'
     ];
 
-    public function classroom()
+    public function classes()
     {
-        return $this->belongsTo(Classroom::class, 'class_id');
+        return $this->hasMany(Classroom::class, 'school_id');
     }  
     
-    public function student()
+    public function students()
     {
-        return $this->belongsTo(Student::class);
+        return $this->hasMany(Student::class, 'school_id', 'class_id'); 
     }  
 }

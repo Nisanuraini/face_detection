@@ -22,37 +22,10 @@ Route::get('admin/home', [AdminController::class, 'index'])->name('admin.home');
 Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('admin/pickups', [PickupController::class, 'index'])->name('pickups');
 
-Route::get('admin/classes', [ClassModelController::class, 'index'])->name('classes.index');
-Route::get('admin/classes/create', [ClassModelController::class, 'create'])->name('classes.create');
-Route::post('admin/classes', [ClassModelController::class, 'store'])->name('classes.store');
-Route::get('admin/classes/{classmodel}', [ClassModelController::class, 'show'])->name('classes.show');
-Route::get('admin/classes/{classmodel}/edit', [ClassModelController::class, 'edit'])->name('classes.edit');
-Route::put('admin/classes/{classmodel}', [ClassModelController::class, 'update'])->name('classes.update');
-Route::delete('admin/classes/{classmodel}', [ClassModelController::class, 'destroy'])->name('classes.destroy');
-
-Route::get('admin/students', [StudentController::class, 'index'])->name('students.index');
-Route::get('admin/students/create', [StudentController::class, 'create'])->name('students.create');
-Route::post('admin/students', [StudentController::class, 'store'])->name('students.store');
-Route::get('admin/students/{student}', [StudentController::class, 'show'])->name('students.show');
-Route::get('admin/students/{student}/edit', [StudentController::class, 'edit'])->name('students.edit');
-Route::put('admin/students/{student}', [StudentController::class, 'update'])->name('students.update');
-Route::delete('admin/students/{student}', [StudentController::class, 'destroy'])->name('students.destroy');
-
-Route::get('admin/schools', [SchoolController::class, 'index'])->name('schools.index');
-Route::get('admin/schools/create', [SchoolController::class, 'create'])->name('schools.create');
-Route::post('admin/schools', [SchoolController::class, 'store'])->name('schools.store');
-Route::get('admin/schools/{school}', [SchoolController::class, 'show'])->name('schools.show');
-Route::get('admin/schools/{school}/edit', [SchoolController::class, 'edit'])->name('schools.edit');
-Route::put('admin/schools/{school}', [SchoolController::class, 'update'])->name('schools.update');
-Route::delete('admin/schools/{school}', [SchoolController::class, 'destroy'])->name('schools.destroy');
-
-Route::get('admin/pickups', [PickupController::class, 'index'])->name('pickups.index');
-Route::get('admin/pickups/create', [PickupController::class, 'create'])->name('pickups.create');
-Route::post('admin/pickups', [PickupController::class, 'store'])->name('pickups.store');
-Route::get('admin/pickups/{pickup}', [PickupController::class, 'show'])->name('pickups.show');
-Route::get('admin/pickups/{pickup}/edit', [PickupController::class, 'edit'])->name('pickups.edit');
-Route::put('admin/pickups/{pickup}', [PickupController::class, 'update'])->name('pickups.update');
-Route::delete('admin/pickups/{pickup}', [PickupController::class, 'destroy'])->name('pickups.destroy');
+Route::resource('admin/classes', ClassModelController::class)->names('classes');
+Route::resource('admin/students', StudentController::class)->names('students');
+Route::resource('admin/schools', SchoolController::class)->names('schools');
+Route::resource('admin/pickups', PickupController::class)->names('pickups');
 
 Route::get('/face-detection', [FaceDetectionController::class, 'index']);
 

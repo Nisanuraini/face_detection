@@ -1,52 +1,83 @@
 @extends('admin.home')
 
 @section('content')
-    <h1>Detail Siswa</h1>
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <!-- Menampilkan gambar siswa -->
-                    <img src="{{ $student->photo_url }}" alt="Foto {{ $student->name }}" class="img-fluid rounded mb-3">
-                </div>
-                <div class="col-md-8">
-                    <!-- Menampilkan nama dan NIS siswa -->
-                    <p><strong>Nama Siswa:</strong> {{ $student->name }}</p>
-                    <p><strong>NIS:</strong> {{ $student->nis }}</p>
-                </div>
-            </div>
-            <!-- Tabel untuk informasi tambahan -->
-            <table class="table table-bordered mt-3">
-                <thead>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Detail Siswa</h1>
+    <div class="p-4 border rounded shadow">
+
+        <div class="text-end mb-3">
+            <button onclick="printStudentDetails()" class="btn btn-success">
+            <i class="bi bi-printer"></i> Print
+            </button>
+        </div>
+
+        <script>
+            function printStudentDetails() {
+            var printContents = document.querySelector('.p-4').cloneNode(true);
+            var printButton = printContents.querySelector('.text-end');
+            printButton.remove();
+            var backButton = printContents.querySelector('.text-start.mt-3');
+            backButton.remove();
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents.innerHTML;
+            window.print();
+            document.body.innerHTML = originalContents;
+            }
+        </script>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center">
+                <thead class="thead-dark">
                     <tr>
-                        <th>Detail</th>
-                        <th>Informasi</th>
+                        <th>Foto Siswa</th>
+                        <th>Informasi Siswa</th>
+                        <th>Nama Penjemput</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Alamat</td>
-                        <td>{{ $student->address }}</td>
-                    </tr>
-                    <tr>
-                        <td>Nama Orang Tua</td>
-                        <td>{{ $student->parent_name }}</td>
-                    </tr>
-                    <tr>
-                        <td>Kontak Orang Tua</td>
-                        <td>{{ $student->parent_contact }}</td>
-                    </tr>
-                    <tr>
-                        <td>Kontak Darurat</td>
-                        <td>{{ $student->emergency_contact }}</td>
-                    </tr>
-                    <tr>
-                        <td>Nama Penjemput</td>
-                        <td>{{ $student->pickup_person }}</td>
+                        <td class="text-center">
+                            @if($student->student_image)
+                                <a href="{{ asset('storage/' . $student->student_image) }}" target="_blank">
+                                    <img src="{{ url('storage/' . $student->student_image) }}" 
+                                    alt="Foto Siswa" class="img-fluid shadow-sm"
+                                    style="width: 200px; height: 200px; object-fit: cover; border-radius: 8px;">    
+                                </a>
+                            @else
+                                <div class="bg-light d-flex align-items-center justify-content-center shadow-sm" 
+                                     style="width: 200px; height: 200px; border-radius: 8px;">
+                                    <span class="text-muted">No Image</span>
+                                </div>
+                            @endif
+                        </td>
+                        <td class="text-start">
+                            <p><strong>Nama Siswa:</strong> {{ $student->name }}</p>
+                            <p><strong>NIS:</strong> {{ $student->nis }}</p>
+                            <p><strong>Nama Kelas:</strong> {{ $student->classroom->class_name }}</p>
+                            <p><strong>Nama Sekolah:</strong> {{ $student->school->name }}</p>
+                            <p><strong>Alamat:</strong> {{ $student->alamat }}</p>
+                            <p><strong>Nama Orang Tua:</strong> {{ $student->nama_orangtua }}</p>
+                            <p><strong>Kontak Orang Tua:</strong> {{ $student->kontak_orangtua }}</p>
+                            <p><strong>Kontak Darurat:</strong> {{ $student->kontak_darurat }}</p>
+                        </td>
+                        <td>
+                            <ul class="list-unstyled">
+                                @foreach($student->pickups as $pickup)
+                                    <li>{{ $pickup->pickup_name }}</li>
+                                @endforeach
+                            </ul>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+
+        <div class="text-start mt-3">
+            <a href="{{ route('students.index') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Kembali
+            </a>
+        </div>
     </div>
-    <a href="{{ route('students.index') }}" class="btn btn-secondary mt-3">Kembali ke Daftar Siswa</a>
+</div>
 @endsection

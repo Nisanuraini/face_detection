@@ -18,7 +18,7 @@
             z-index: 100;
             padding-top: 60px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            background-color: #004c99; /* Biru tua */
+            background-color: #004c99; 
         }
         .sidebar h3 {
             color: #ffffff;
@@ -60,20 +60,6 @@
         .navbar-right {
             display: flex;
             align-items: center;
-        }
-        .notifications {
-            margin-right: 15px;
-            position: relative;
-        }
-        .notifications .badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: red;
-            color: white;
-            font-size: 12px;
-            padding: 2px 5px;
-            border-radius: 50%;
         }
     </style>
 </head>
@@ -132,14 +118,6 @@
                 <!-- Navbar atas (Profil) -->
                 <div class="d-flex justify-content-end align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <div class="navbar-right">
-                        <!-- Notifikasi -->
-                        <div class="notifications">
-                            <a href="#">
-                                <i class="bi bi-bell-fill"></i>
-                                <span class="badge">3</span>
-                            </a>
-                        </div>
-
                         <!-- Profil Pengguna -->
                         <div class="dropdown">
                             <button class="btn profile-btn dropdown-toggle" type="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">

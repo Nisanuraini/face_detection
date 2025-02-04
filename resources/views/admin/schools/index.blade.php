@@ -3,18 +3,20 @@
 @section('content')
 <div class="container mt-5">
     <h1 class="text-center mb-4">Data Sekolah</h1>
-    <a href="{{ route('schools.create') }}" class="btn btn-primary mb-3">Tambah Sekolah</a>
+    <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">Tambah Sekolah</button>
 
     @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-    </div>
-    <script>
-        setTimeout(function() {
-            $('.alert').alert('close');
-        }, 3000);
-    </script>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+        </div>
     @endif
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('.alert').alert('close');
+            }, 3000);
+        });
+    </script>
 
     <div class="table-responsive">
         <table class="table table-bordered table-striped text-center">
@@ -22,33 +24,81 @@
                 <tr>
                     <th>No</th>
                     <th>Nama Sekolah</th>
-                    <th>Siswa</th>
-                    <th>Kelas</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($schools as $school)
+                @foreach ($schools as $school)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $school->name }}</td>
-                        <td>{{ $school->student->name }}</td>
-                        <td>{{ $school->classroom?->class_name ?? 'Tidak ada kelas' }}</td>
                         <td>
-                            <a href="{{ route('schools.show', $school->id) }}" class="btn btn-info btn-sm">Lihat</a>
-                            <a href="{{ route('schools.edit', $school->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{{ route('schools.show', $school->id) }}" class="btn btn-info btn-sm">Detail</a>
+                            <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $school->id }}">Edit</button>
                             <form action="{{ route('schools.destroy', $school->id) }}" method="POST" class="d-inline-block" 
                                   onsubmit="return confirm('Apakah Anda yakin ingin menghapus data sekolah ini?')">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                             </form>
-                            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
                         </td>
                     </tr>
+
+                    <!-- Modal Edit -->
+                    <div class="modal fade" id="editModal{{ $school->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $school->id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form action="{{ route('schools.update', $school->id) }}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editModalLabel{{ $school->id }}">Edit Sekolah</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group mb-4">
+                                            <label for="name">Nama Sekolah</label>
+                                            <input type="text" name="name" class="form-control" value="{{ old('name', $school->name) }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
             </tbody>
         </table>
     </div>
 </div>
+
+<!-- Modal Create -->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ route('schools.store') }}" method="POST">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createModalLabel">Tambah Sekolah</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group mb-4">
+                        <label for="name">Nama Sekolah</label>
+                        <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 @endsection

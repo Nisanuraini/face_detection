@@ -15,6 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('nis')->unique();
+            $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
+            $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
+            $table->string('alamat');
+            $table->string('nama_orangtua');
+            $table->string('kontak_orangtua');
+            $table->string('kontak_darurat');
+            $table->string('nama_penjemput');
+            $table->string('student_image')->nullable();
             $table->timestamps();
         });
     }

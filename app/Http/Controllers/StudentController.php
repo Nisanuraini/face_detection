@@ -3,69 +3,94 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\Classroom; 
+use App\Models\School;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::all();
-        return view('admin.students.index', compact('students'));
+        $schools = School::all();
+        $students = Student::with('classroom')->get(); 
+        $classes = Classroom::all();
+        return view('admin.students.index', compact('students', 'classes', 'schools'));
     }
 
     public function create()
-    {
-        return view('admin.students.create');
+    { 
+        $classes = Classroom::all();
+        return view('admin.students.create', compact('classes'));
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
+    public function store(Request $request) 
+    { 
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'nis' => 'required|string|unique:students,nis',
+            'class_id' => 'required|exists:classes,id', 
+            'school_id' => 'required|exists:schools,id',
+            'alamat' => 'nullable|string',
+            'nama_orangtua' => 'nullable|string',
+            'kontak_orangtua' => 'nullable|string',
+            'kontak_darurat' => 'nullable|string', 
+            'nama_penjemput' => 'nullable|string', 
+            'student_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-
-        Student::create([
-            'name' => $request->name,
-            'nis' => $request->nis,
-        ]);
-
-        return redirect()->route('students.index')->with('success', 'Siswa berhasil ditambahkan');
+        
+        if ($request->hasFile('student_image')) {
+            $validated['student_image'] = $request->file('student_image')->store('students', 'public');
+        }
+        
+        Student::create($validated);
+        
+        return redirect()->route('students.index')->with('success', 'Data siswa berhasil ditambahkan.');
     }
 
-    public function show($id)
+    public function show(Student $student)
     {
-        $student = Student::findOrFail($id);
+        $student = $student->load('classroom', 'school', 'pickups');
         return view('admin.students.show', compact('student'));
     }
 
-    public function edit($id)
+    public function edit(Student $student)
     {
-        $student = Student::findOrFail($id);
-        return view('admin.students.edit', compact('student'));
+        $classes = Classroom::all();
+        $schools = School::all();
+        return view('admin.students.edit', compact('student', 'classes'));
     }
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'nis' => 'required|string|unique:students,nis,' . $id,
+            'nis' => 'required|string|unique:students,nis',
+            'class_id' => 'required|exists:classes,id', 
+            'school_id' => 'required|exists:schools,id',
+            'alamat' => 'nullable|string|max:255',
+            'nama_orangtua' => 'nullable|string|max:255',
+            'kontak_orangtua' => 'nullable|string|max:255',
+            'kontak_darurat' => 'nullable|string|max:255',
+            'nama_penjemput' => 'nullable|string|max:255',
+            'student_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            
+
         ]);
 
+        if ($request->hasFile('student_image')) {
+            $validated['student_image'] = $request->file('student_image')->store('students', 'public');
+        }
+        
         $student = Student::findOrFail($id);
-        $student->update([
-            'name' => $request->name,
-            'nis' => $request->nis,
-        ]);
+        $student->update($validated);
 
-        return redirect()->route('students.index')->with('success', 'Siswa berhasil diperbarui');
+        return redirect()->route('students.index', $student->id)->with('success', 'Data siswa berhasil diperbarui.');
     }
-    
-    public function destroy($id)
+
+    public function destroy(Student $student)
     {
-        $student = Student::findOrFail($id);
         $student->delete();
 
-        return redirect()->route('students.index')->with('success', 'Siswa berhasil dihapus');
+        return redirect()->route('students.index')->with('success', 'Data siswa berhasil dihapus.');
     }
 }

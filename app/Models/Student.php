@@ -9,13 +9,31 @@ class Student extends Model
 {
     protected $table = 'students';
 
-    protected $fillable = ['name', 'nis'];
+    protected $fillable = [
+        'name', 
+        'nis', 
+        'class_id', 
+        'school_id', 
+        'alamat', 
+        'nama_orangtua', 
+        'kontak_orangtua', 
+        'kontak_darurat', 
+        'nama_penjemput', 
+        'student_image' 
+    ];
 
-    public function classroom (){
-        return $this->belongsTo(Classroom::class, 'classroom_id');
+    public function classroom()
+    {
+        return $this->belongsTo(Classroom::class, 'class_id'); 
     }
 
-    public function pickup (){
+    public function school()
+    {
+        return $this->belongsTo(School::class); 
+    }
+
+    public function pickups ()
+    {
         return $this->hasMany(Pickup::class);
     }
 }

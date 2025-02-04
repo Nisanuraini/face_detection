@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('pickups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained('students')->onDelete('cascade'); 
             $table->string('pickup_name');
-            $table->string('pickup_image')->nullable(); 
-            $table->date('date');
-            $table->time('time');
+            $table->foreignId('student_id')->constrained('students')->onDelete('cascade');
             $table->timestamps();
         });
     }
