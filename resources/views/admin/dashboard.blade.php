@@ -1,3 +1,4 @@
+<!-- filepath: /C:/penjemputan/resources/views/admin/dashboard.blade.php -->
 @extends('admin.home')
 
 @section('page_title', 'Dashboard Penjemputan')
@@ -69,17 +70,16 @@
                             <th>Gambar</th>
                             <th>Tanggal</th>
                             <th>Waktu</th>
-                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($recentPickups as $pickup)
+                        @forelse($recentListFaceDetection as $item)
                         <tr>
-                            <td>{{ optional($pickup->student)->name }}</td>
-                            <td>{{ $pickup->pickup_name }}</td>
+                            <td>{{ optional($item->student)->name }}</td>
+                            <td>{{ $item->pickup_name }}</td>
                             <td>
-                                @if($pickup->pickup_image)
-                                <img src="{{ asset('storage/' . $pickup->pickup_image) }}" 
+                                @if($item->pickup_image)
+                                <img src="{{ asset('storage/' . $item->pickup_image) }}" 
                                      alt="Gambar Penjemput" 
                                      class="img-thumbnail" 
                                      style="width: 80px; height: 80px; object-fit: cover;">
@@ -87,16 +87,12 @@
                                     <span class="text-muted">Tidak ada gambar</span>
                                 @endif
                             </td>
-                            <td>{{ \Carbon\Carbon::parse($pickup->date)->format('d-m-Y') }}</td>
-                            <td>{{ $pickup->time }}</td>
-                            <td>
-                                <a href="{{ route('pickups.show', $pickup->id) }}" class="btn btn-info btn-sm"><i class="bi bi-search"></i> Detail</a>
-                                </button>
-                            </td>
+                            <td>{{ \Carbon\Carbon::parse($item->date)->format('d-m-Y') }}</td>
+                            <td>{{ $item->time }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="text-center text-muted">Belum ada data penjemputan.</td>
+                            <td colspan="6" class="text-center">Tidak ada data penjemputan.</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -105,7 +101,6 @@
         </div>
     </div>
 </div>
-
 <script>
     function printTable() {
         var printContent = document.getElementById('printableTable').innerHTML;
@@ -141,7 +136,7 @@
 
         window.print();
         document.body.innerHTML = originalContent;
-        window.location.reload(); // Reload halaman untuk mengembalikan konten asli
+        window.location.reload(); 
     }
 </script>
 

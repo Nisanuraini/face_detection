@@ -84,7 +84,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->is('face-detection-list') ? 'active' : '' }}" href="{{ route('face-detection-list') }}">
+                            <a class="nav-link {{ request()->is('listfacedetections') ? 'active' : '' }}" href="{{ route('listfacedetections.index') }}">
                                 <i class="bi bi-list-ul me-2"></i> List Face Detection
                             </a>
                         </li>
@@ -102,11 +102,6 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is('schools') ? 'active' : '' }}" href="{{ route('schools.index') }}">
                                 <i class="bi bi-mortarboard me-2"></i> Sekolah
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->is('pickupstudents') ? 'active' : '' }}" href="{{ route('pickupstudents.index') }}">
-                                <i class="bi bi-person-check-fill me-2"></i> Pickup Student
                             </a>
                         </li>
                         <li class="nav-item">

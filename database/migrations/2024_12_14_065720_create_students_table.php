@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('nis')->unique();
-            $table->foreignId('classroom_id')->constrained('classes')->onDelete('cascade');
+            $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
             $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
             $table->string('address'); 
-            $table->string('parent_name'); 
+            $table->string('nama_ibu');
+            $table->string('nama_ayah'); 
             $table->string('parent_contact'); 
             $table->string('emergency_contact'); 
             $table->string('photo'); 

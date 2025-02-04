@@ -31,7 +31,8 @@ class StudentController extends Controller
             'classroom_id' => 'required|exists:classes,id', 
             'school_id' => 'required|exists:schools,id',
             'address' => 'nullable|string',
-            'parent_name' => 'nullable|string',
+            'nama_ibu' => 'nullable|string',
+            'nama_ayah' => 'nullable|string',
             'parent_contact' => 'nullable|string',
             'emergency_contact' => 'nullable|string', 
             'pickup_name' => 'nullable|string', 
@@ -49,7 +50,7 @@ class StudentController extends Controller
 
     public function show(Student $student)
     {
-        $student = $student->load('classroom', 'school');
+        $student = $student->load('classroom', 'school', 'pickup');
         return view('admin.students.show', compact('student'));
     }
 
@@ -68,7 +69,8 @@ class StudentController extends Controller
             'classroom_id' => 'required|exists:classes,id', 
             'school_id' => 'required|exists:schools,id',
             'address' => 'nullable|string|max:255',
-            'parent_name' => 'nullable|string|max:255',
+            'nama_ibu' => 'nullable|string|max:255',
+            'nama_ayah' => 'nullable|string|max:255',
             'parent_contact' => 'nullable|string|max:255',
             'emergency_contact' => 'nullable|string|max:255',
             'pickup_name' => 'nullable|string|max:255',

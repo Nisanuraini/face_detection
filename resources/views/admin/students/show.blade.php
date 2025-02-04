@@ -1,17 +1,13 @@
+<!-- filepath: /C:/penjemputan/resources/views/admin/students/show.blade.php -->
 @extends('admin.home')
 
 @section('content')
 <div class="container mt-5">
     <h1 class="text-center mb-4">Detail Siswa</h1>
     <div class="p-4 border rounded shadow">
-        <p><strong>Nama Siswa:</strong> {{ $student->name }}</p>
-        <p><strong>NIS:</strong> {{ $student->nis }}</p>
-        <p><strong>Nama Kelas:</strong> {{ $student->classroom->class_name }}</p>
-        <p><strong>Nama Sekolah:</strong> {{ $student->school->name }}</p>
-
         <div class="text-end mb-3">
             <button onclick="printStudentDetails()" class="btn btn-primary">
-            <i class="bi bi-printer"></i> Print
+                <i class="bi bi-printer"></i> Print
             </button>
         </div>
 
@@ -29,11 +25,11 @@
         </script>
 
         <div class="table-responsive">
-            <table class="table table-bordered table-striped text-center">
+            <table class="table table-bordered table-striped text-center" style="width: auto; margin: 0 auto;">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Foto Siswa</th>
-                        <th>Informasi Siswa</th>
+                        <th style="width: 30%;">Foto Siswa</th>
+                        <th style="width: 70%;">Informasi Siswa</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,8 +49,13 @@
                             @endif
                         </td>
                         <td class="text-start">
+                            <p><strong>Nama Siswa:</strong> {{ $student->name }}</p>
+                            <p><strong>NIS:</strong> {{ $student->nis }}</p>
+                            <p><strong>Nama Kelas:</strong> {{ $student->classroom->class_name }}</p>
+                            <p><strong>Nama Sekolah:</strong> {{ $student->school->name }}</p>
                             <p><strong>Alamat:</strong> {{ $student->address }}</p>
-                            <p><strong>Nama Orang Tua:</strong> {{ $student->parent_name }}</p>
+                            <p><strong>Nama Ibu:</strong> {{ $student->nama_ibu }}</p>
+                            <p><strong>Nama Ayah:</strong> {{ $student->nama_ayah }}</p>
                             <p><strong>Kontak Orang Tua:</strong> {{ $student->parent_contact }}</p>
                             <p><strong>Kontak Darurat:</strong> {{ $student->emergency_contact }}</p>
                             <p><strong>Nama Penjemput:</strong> {{ $student->pickup_name }}</p>

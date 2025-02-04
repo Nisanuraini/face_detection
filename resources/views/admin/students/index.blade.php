@@ -95,8 +95,12 @@
                                         <input type="text" class="form-control" id="address" name="address" value="{{ $student->address }}" required>
                                     </div>
                                     <div class="form-group">
-                                        <label for="parent_name">Nama Orang Tua</label>
-                                        <input type="text" class="form-control" id="parent_name" name="parent_name" value="{{ $student->parent_name }}" required>
+                                        <label for="nama_ibu">Nama Ibu</label>
+                                        <input type="text" class="form-control" id="nama_ibu" name="nama_ibu" value="{{ $student->nama_ibu }}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nama_ayah">Nama Ayah</label>
+                                        <input type="text" class="form-control" id="nama_ayah" name="nama_ayah" value="{{ $student->nama_ayah }}" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="parent_contact">Kontak Orang Tua</label>
@@ -178,8 +182,12 @@
                         <input type="text" class="form-control" id="address" name="address" required>
                     </div>
                     <div class="form-group">
-                        <label for="parent_name">Nama Orang Tua</label>
-                        <input type="text" class="form-control" id="parent_name" name="parent_name" required>
+                        <label for="nama_ibu">Nama Ibu</label>
+                        <input type="text" class="form-control" id="nama_ibu" name="nama_ibu" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama_ayah">Nama Ayah</label>
+                        <input type="text" class="form-control" id="nama_ayah" name="nama_ayah" required>
                     </div>
                     <div class="form-group">
                         <label for="parent_contact">Kontak Orang Tua</label>

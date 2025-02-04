@@ -4,7 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PickupController;
 use App\Http\Controllers\FaceDetectionController;
-use App\Http\Controllers\FaceDetectionListController;
+use App\Http\Controllers\ListFaceDetectionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ClassModelController;
 use App\Http\Controllers\SchoolController;
@@ -31,13 +31,13 @@ Route::resource('admin/classes', ClassModelController::class)->names('classes');
 Route::resource('admin/students', StudentController::class)->names('students');
 Route::resource('admin/schools', SchoolController::class)->names('schools');
 Route::resource('admin/pickups', PickupController::class)->names('pickups');
-Route::resource('admin/pickupstudents', PickupStudentController::class)->names('pickupstudents');
+Route::resource('admin/listfacedetection', ListFaceDetectionController::class)->names('listfacedetections');
 
-Route::get('/face-detection', [FaceDetectionController::class, 'index']);
+Route::get('/face-detection/data', [FaceDetectionController::class, 'getData'])->name('face-detection-data');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/face-detection', [FaceDetectionController::class, 'index'])->name('face-detection');
-    Route::get('/face-detection-list', [FaceDetectionListController::class, 'index'])->name('face-detection-list');
 });
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/home', [AdminController::class, 'home'])->name('admin.home');

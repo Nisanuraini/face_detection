@@ -16,8 +16,8 @@
             <thead class="thead-dark">
                 <tr>
                     <th>No</th>
-                    <th>Nama Sekolah</th>
                     <th>Nama Kelas</th>
+                    <th>Nama Sekolah</th>
                     <th>Action</th>
                 </tr>
             </thead>

@@ -4,14 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Student;
 
-class PickupStudent extends Model
+class ListFaceDetection extends Model
 {
     use HasFactory;
-    protected $table = 'pickup_students';
+
+    protected $table = 'list_face_detections';
 
     protected $fillable = [
-        'pickup_nama',
+        'student_id', 
+        'pickup_name',
+        'pickup_image',
+        'date',
+        'time',
     ];
 
     public function student(){

@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\School;
+use App\Models\Classroom;
+use App\Models\Pickup;
 
 class Student extends Model
 {
@@ -17,7 +20,8 @@ class Student extends Model
         'classroom_id',
         'school_id',
         'address',
-        'parent_name',
+        'nama_ibu',
+        'nama_ayah',
         'parent_contact',
         'emergency_contact',
         'pickup_name',
