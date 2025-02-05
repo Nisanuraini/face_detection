@@ -40,7 +40,7 @@
                         </div>
                     @endforeach
                     <div class="text-start mt-3">
-                        <a href="{{ route('schools.index') }}" class="btn btn-secondary">
+                        <a href="{{ route('students.index') }}" class="btn btn-secondary">
                             <i class="bi bi-arrow-left"></i> Kembali
                         </a>
                     </div>

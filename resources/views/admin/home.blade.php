@@ -18,7 +18,7 @@
             z-index: 100;
             padding-top: 60px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            background-color: #004c99; 
+            background-color: #004c99; /* Biru tua */
         }
         .sidebar h3 {
             color: #ffffff;
@@ -84,7 +84,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->is('face-detection-list') ? 'active' : '' }}" href="{{ route('face-detection-list') }}">
+                            <a class="nav-link {{ request()->is('listfacedetections') ? 'active' : '' }}" href="{{ route('listfacedetections.index') }}">
                                 <i class="bi bi-list-ul me-2"></i> List Face Detection
                             </a>
                         </li>
@@ -151,5 +151,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+
+
 </body>
 </html> 
