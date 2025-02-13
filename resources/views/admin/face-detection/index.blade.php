@@ -1,6 +1,6 @@
-@extends('admin.home')
+@extends('layouts.main')
 
-@section('content')
+@section('main-content')
 
 
 <!--filter -->
@@ -89,13 +89,32 @@
             });
         });
 
-
-
-
         // Submit deteksi wajah
         $('#submitScan').click(function () {
-            // Tambahkan logika submit di sini
-            alert('Face detection berhasil dikirim!');
+            const video = document.getElementById('camera');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const photo = canvas.toDataURL('image/png');
+
+            $.ajax({
+                url: '{{ route('face-detection-submit') }}',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    photo: photo,
+                    student_id: $('#studentDropdown').val(),
+                    classroom_id: $('#classDropdown').val()
+                },
+                success: function(response) {
+                    alert('Face detection berhasil dikirim!');
+                },
+                error: function() {
+                    alert('Gagal mengirim face detection');
+                }
+            });
         });
     });
 </script>

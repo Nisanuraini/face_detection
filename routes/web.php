@@ -23,29 +23,25 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 Route::get('admin/user', [UserController::class, 'index']);
-Route::get('admin/home', [AdminController::class, 'index'])->name('admin.home');
-Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('/admin', [DashboardController::class, 'index']);
 Route::get('admin/pickups', [PickupController::class, 'index'])->name('pickups');
 
-Route::resource('admin/classes', ClassModelController::class)->names('classes');
-Route::resource('admin/students', StudentController::class)->names('students');
-Route::resource('admin/schools', SchoolController::class)->names('schools');
-Route::resource('admin/pickups', PickupController::class)->names('pickups');
-Route::resource('admin/listfacedetection', ListFaceDetectionController::class)->names('listfacedetections');
+Route::resource('admin/classes', ClassModelController::class);
+Route::resource('admin/students', StudentController::class);
+Route::resource('admin/schools', SchoolController::class);
+Route::resource('admin/pickups', PickupController::class);
+Route::resource('admin/face-detection', FaceDetectionController::class);
+Route::resource('admin/listfacedetections', ListFaceDetectionController::class);
 
 Route::get('/face-detection/data', [FaceDetectionController::class, 'getData'])->name('face-detection-data');
 
-
 Route::middleware(['auth'])->group(function () {
     Route::get('/face-detection', [FaceDetectionController::class, 'index'])->name('face-detection');
+    Route::post('/face-detection/submit', [FaceDetectionController::class, 'submit'])->name('face-detection-submit');
 });
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/home', [AdminController::class, 'home'])->name('admin.home');
-});
+
 Route::get('/search', [PickupController::class, 'search'])->name('search.pickups');
 Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-
-
 
 Route::post('/logout', function () {
     Auth::logout();

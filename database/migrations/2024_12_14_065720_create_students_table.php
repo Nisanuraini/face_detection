@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('nis')->unique();
-            $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
+            $table->foreignId('classroom_id')->constrained('classes')->onDelete('cascade');
             $table->foreignId('school_id')->constrained('schools')->onDelete('cascade');
             $table->string('address'); 
             $table->string('nama_ibu');

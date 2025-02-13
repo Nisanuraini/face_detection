@@ -1,6 +1,7 @@
-@extends('admin.home')
+<!-- filepath: /C:/penjemputan/resources/views/admin/pickups/index.blade.php -->
+@extends('admin.layouts.main')
 
-@section('content')
+@section('main-content')
 <div class="container mt-5">
     <h1 class="text-center mb-4">Daftar Penjemputan</h1>
     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">Tambah Penjemputan</button>

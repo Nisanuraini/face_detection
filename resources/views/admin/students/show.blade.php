@@ -1,7 +1,6 @@
-<!-- filepath: /C:/penjemputan/resources/views/admin/students/show.blade.php -->
-@extends('admin.home')
+@extends('admin.layouts.main')
 
-@section('content')
+@section('main-content')
 <div class="container mt-5">
     <h1 class="text-center mb-4">Detail Siswa</h1>
     <div class="p-4 border rounded shadow">

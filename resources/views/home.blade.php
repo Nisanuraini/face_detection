@@ -14,7 +14,7 @@
                     <p>{{ __('Di sini Anda dapat mengelola informasi penjemputan siswa, termasuk riwayat penjemputan.') }}</p>
                     
                     <!-- Tombol Mulai -->
-                    <a href="{{ route('admin.home') }}" class="btn btn-primary mt-4">{{ __('Mulai') }}</a>
+                    <a href="{{ route('admin') }}" class="btn btn-primary mt-4">{{ __('Mulai') }}</a>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
-@extends('admin.home')
+@extends('admin.layouts.main')
 
-@section('content')
+@section('main-content')
 <div class="container mt-4">
     <h1>Tambah Data Penjemputan</h1>
     <form action="{{ route('pickupstudents.store') }}" method="POST">

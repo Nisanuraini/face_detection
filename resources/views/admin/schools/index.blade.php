@@ -1,6 +1,6 @@
-@extends('admin.home')
+@extends('admin.layouts.main')
 
-@section('content')
+@section('main-content')
 <div class="container">
     <h1 class="text-center mb-4">Daftar Sekolah</h1>
     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createModal">Tambah Sekolah</button>

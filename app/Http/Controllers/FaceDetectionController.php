@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\FaceDetection;
+use App\Models\ListFaceDetection;
 use Illuminate\Http\Request;
 
 
@@ -34,22 +35,40 @@ class FaceDetectionController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'photo' => 'required|image',
-            'date_time' => 'required|date',
-            'student_id' => 'required|exists:students,id',
-            'classroom_id' => 'required|exists:classrooms,id',
+    $request->validate([
+        'image' => 'required',
+        'student_id' => 'required|exists:students,id',
+        'class_id' => 'required|exists:classes,id',
+    ]);
+
+    $imageData = $request->image; 
+    $image = str_replace('data:image/png;base64,', '', $imageData);
+    $image = str_replace(' ', '+', $image);
+    $imageName = 'penjemputan_' . time() . '.png';
+
+    Storage::disk('public')->put('penjemputan/' . $imageName, base64_decode($image));
+
+    FaceDetection::create([
+        'student_id' => $request->student_id,
+        'class_id' => $request->class_id,
+        'image' => 'penjemputan/' . $imageName
+    ]);
+
+    return response()->json(['message' => 'Data berhasil disimpan']);
+    }
+
+    public function submit(Request $request)
+    {
+        $data = $request->validate([
+            'photo' => 'required|string',
+            'student_id' => 'required|integer',
+            'classroom_id' => 'required|integer',
         ]);
 
-        $photoPath = $request->file('photo')->store('photos', 'public');
+        $data['date_time'] = now();
 
-        FaceDetection::create([
-            'photo' => $photoPath,
-            'date_time' => now(),
-            'student_id' => $request->student_id,
-            'classroom_id' => $request->classroom_id,
-        ]);
+        FaceDetection::create($data);
 
-        return redirect()->back()->with('success', 'Face detection data saved successfully.');
+        return response()->json(['message' => 'Face detection berhasil dikirim!']);
     }
 }

@@ -1,6 +1,6 @@
-@extends('admin.home')
+@extends('admin.layouts.main')
 
-@section('content')
+@section('main-content')
 
 <div class="container">
     <h1 class="mb-4">Detail Penjemputan</h1>

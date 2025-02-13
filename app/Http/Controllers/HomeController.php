@@ -1,6 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Student;
+use App\Models\Classroom;
+use App\Models\Pickup;
+use App\Models\School;
+use App\Models\ListFaceDetection;
 
 use Illuminate\Http\Request;
 
@@ -23,6 +28,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $totalstudents = Student::count();
+        $totalclasses = Classroom::count();
+        $totalpickups = Pickup::count();
+        $totalschools = School::count();
+        $recentListFaceDetection = ListFaceDetection::latest()->take(5)->get();
+        return view('admin.index', compact('totalstudents', 'totalclasses', 'totalpickups', 'recentListFaceDetection', 'totalschools'));
     }
 }

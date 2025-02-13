@@ -1,126 +1,78 @@
-@extends('admin.home')
+@extends('layouts.main')
 
-@section('content')
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Detail Kelas</h1>
-    <div class="p-4 border rounded shadow">
-        <p><strong>Nama Kelas:</strong> {{ $classroom->class_name }}</p>
+@section('style')
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+@endsection
+ 
+@section('main-content')
+<div class="container-fluid">
 
-        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createStudentModal">Tambah Siswa</button>
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Daftar Siswa</h1>
+  </div>
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped text-center">
-            <thead class="thead-dark">
-                <tr>
-                    <th>No</th>
-                    <th>Nama Siswa</th>
-                    <th>NIS</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($classroom->students as $student)
+  <div class="card shadow mb-4">
+      <div class="card-body">
+          <div class="table-responsive">
+              <table class="table table-bordered" id="myTable" width="100%" cellspacing="0">
+                  <thead>
+                      <tr>
+                          <th>No</th>
+                          <th><center>Nama</center></th>
+                          <th><center>NIS</center></th>
+                          <th><center>Kelas</center></th>
+                          <th><center>Aksi</center></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($classroom->students as $student)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $student->name }}</td>
                         <td>{{ $student->nis }}</td>
-                        <td>
-                            <!-- Tombol Edit -->
-                            <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#editStudentModal{{ $student->id }}">Edit</button>
-
-                            <!-- Tombol Hapus -->
-                            <form action="{{ route('students.destroy', $student->id) }}" method="POST" class="d-inline-block" 
-                                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus data siswa ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                            </form>
+                        <td>{{ $student->classroom->class_name }}</td>
+                        <td class="d-flex gap-1">
+                          <a href="{{ route('students.show', $student->id) }}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
                         </td>
                     </tr>
+                    @endforeach
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
 
-                    <!-- Modal Edit Siswa -->
-                    <div class="modal fade" id="editStudentModal{{ $student->id }}" tabindex="-1" role="dialog" aria-labelledby="editStudentModalLabel{{ $student->id }}" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editStudentModalLabel{{ $student->id }}">Edit Siswa</h5>
-                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form action="{{ route('students.update', $student->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="name{{ $student->id }}">Nama Siswa</label>
-                                            <input type="text" class="form-control" id="name{{ $student->id }}" name="name" value="{{ $student->name }}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="nis{{ $student->id }}">NIS</label>
-                                            <input type="text" class="form-control" id="nis{{ $student->id }}" name="nis" value="{{ $student->nis }}" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="classroom_id{{ $student->id }}">Kelas</label>
-                                            <select name="classroom_id" class="form-control">
-                                                <option value="{{ $classroom->id }}" selected>{{ $classroom->class_name }}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="text-start mt-3">
-            <a href="{{ route('students.index') }}" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i> Kembali
-            </a>
-        </div>
-    </div>
-</div>
+  @if(session('success'))
+  <div class="alert alert-success">
+      {{ session('success') }}
+  </div>
+  @endif
 
-<!-- Modal untuk tambah siswa -->
-<div class="modal fade" id="createStudentModal" tabindex="-1" role="dialog" aria-labelledby="createStudentModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createStudentModalLabel">Tambah Siswa ke Kelas</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{ route('students.store') }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="name">Nama Siswa</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="nis">NIS</label>
-                        <input type="text" class="form-control" id="nis" name="nis" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="classroom_id">Kelas</label>
-                        <select name="classroom_id" class="form-control">
-                            <option value="{{ $classroom->id }}" selected>{{ $classroom->class_name }}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary">Tambah Siswa</button>
-                </div>
-            </form>
-        </div>
-    </div>
+  @if($errors->any())
+  <div class="alert alert-danger">
+      <ul>
+          @foreach($errors->all() as $error)
+              <li>{{ $error }}</li>
+          @endforeach
+      </ul>
+  </div>
+  @endif
 </div>
-</div>
+@endsection
+
+@section('script')
+    <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+    <script>
+      $('#myTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: ['pdf', 'excel', 'print']
+      });
+    </script>
 @endsection

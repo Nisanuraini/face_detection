@@ -1,6 +1,6 @@
-@extends('admin.home')
+@extends('admin.layouts.main')
 
-@section('content')
+@section('main-content')
     <div class="container mt-5">
         <h1 class="text-center mb-4">{{ $school->name }}</h1>
 

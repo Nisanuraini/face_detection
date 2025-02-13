@@ -4,24 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student; 
+use App\Models\Classroom;
+use App\Models\School;
+use App\Models\ListFaceDetection;
 use App\Models\Pickup;
 
 class AdminController extends Controller
 {
     public function index()
     {
-        $totalStudents = Student::count(); 
-        $totalPickups = PickUp::count(); 
-        $recentPickups = Pickup::latest()->take(5)->get();
+        $totalstudents = Student::count(); 
+        $totalclasses = Classroom::count();
+        $totalschools = School::count();
+        $totalpickups = PickUp::count(); 
+        $recentListFaceDetection = ListFaceDetection::latest()->take(5)->get();
         $students = Student::all();
         
-        return view('admin.dashboard', compact('totalStudents', 'totalPickups', 'recentPickups')); 
+        return view('admin.index', compact('totalstudents', 'totalclasses', 'totalschools',  'recentListFaceDetection','totalpickups')); 
     } 
-    public function home()
-    {
-        // Logika untuk halaman admin home
-        return view('admin/home'); // Pastikan file Blade ada
-    }
-
-
 }
